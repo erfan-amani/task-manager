@@ -8,7 +8,7 @@ const register = (req, res) => {
   user
     .save()
     .then(() => {
-      res.send(user);
+      res.status(201).send(user);
     })
     .catch((err) => {
       res.status(400).send(err);
