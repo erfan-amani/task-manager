@@ -1,44 +1,41 @@
 const Task = require("../model/task");
 
-const addTask = (req, res) => {
+const addTask = async (req, res) => {
   const data = req.body;
 
   const task = new Task(data);
 
-  task
-    .save()
-    .then(() => {
-      res.status(201).send(task);
-    })
-    .catch((err) => {
-      res.status(400).send(err);
-    });
+  try {
+    await task.save();
+    res.status(201).send(task);
+  } catch (err) {
+    res.status(400).send(err);
+  }
 };
 
-const getAllTasks = (req, res) => {
-  Task.find()
-    .then((tasks) => {
-      res.send(tasks);
-    })
-    .catch((err) => {
-      res.status(500).send(err);
-    });
+const getAllTasks = async (req, res) => {
+  try {
+    const tasks = await Task.find();
+    res.send(tasks);
+  } catch (err) {
+    res.status(500).send("Something went wrong!");
+  }
 };
 
-const getTaskById = (req, res) => {
+const getTaskById = async (req, res) => {
   const id = req.params.id;
 
-  Task.findById(id)
-    .then((task) => {
-      if (!task) {
-        return res.status(404).send("Task not found!");
-      }
+  try {
+    const task = await Task.findById(id);
 
-      res.send(task);
-    })
-    .catch((err) => {
-      res.status(500).send(err);
-    });
+    if (!task) {
+      return res.send(404).send("Task not found!");
+    }
+
+    res.send(task);
+  } catch (err) {
+    res.status(500).send("Something went wrong!");
+  }
 };
 
 module.exports = {

@@ -1,41 +1,40 @@
 const User = require("../model/user");
 
-const register = (req, res) => {
+const register = async (req, res) => {
   const user = new User(req.body);
 
-  user
-    .save()
-    .then(() => {
-      res.status(201).send(user);
-    })
-    .catch((err) => {
-      res.status(400).send(err);
-    });
+  try {
+    await user.save();
+    res.status(201).send(user);
+  } catch (err) {
+    res.status(400).send(err);
+  }
 };
 
-const getAllUser = (req, res) => {
-  User.find()
-    .then((users) => {
-      res.send(users);
-    })
-    .catch((err) => {
-      res.status(500).send(err);
-    });
+const getAllUser = async (req, res) => {
+  try {
+    const users = await User.find();
+
+    res.send(users);
+  } catch (err) {
+    res.status(500).send("Something went wrong!");
+  }
 };
 
-const getUserById = (req, res) => {
+const getUserById = async (req, res) => {
   const id = req.params.id;
 
-  User.findById(id)
-    .then((user) => {
-      if (!user) {
-        return res.status(404).send("User not found!");
-      }
-      res.send(user);
-    })
-    .catch((err) => {
-      res.status(500).send(err);
-    });
+  try {
+    const user = await User.findById(id);
+
+    if (!user) {
+      return res.status(404).send("User not found!");
+    }
+
+    res.send(user);
+  } catch (err) {
+    res.status(500).send("Something went wrong!");
+  }
 };
 
 module.exports = {
