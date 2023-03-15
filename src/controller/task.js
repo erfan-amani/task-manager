@@ -29,7 +29,7 @@ const getTaskById = async (req, res) => {
     const task = await Task.findById(id);
 
     if (!task) {
-      return res.send(404).send("Task not found!");
+      return res.status(404).send("Task not found!");
     }
 
     res.send(task);
