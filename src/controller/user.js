@@ -11,6 +11,16 @@ const register = async (req, res) => {
   }
 };
 
+const login = async (req, res) => {
+  try {
+    const user = await User.findByCredential(req.body.email, req.body.password);
+
+    res.status(200).send(user);
+  } catch (err) {
+    res.status(400).send(err.message || err);
+  }
+};
+
 const getAllUser = async (req, res) => {
   try {
     const users = await User.find();
@@ -84,6 +94,7 @@ const deleteUser = async (req, res) => {
 
 module.exports = {
   register,
+  login,
   getAllUser,
   getUserById,
   updateUser,
