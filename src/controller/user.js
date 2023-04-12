@@ -47,10 +47,16 @@ const updateUser = async (req, res) => {
   }
 
   try {
-    const user = await User.findByIdAndUpdate(req.params.id, req.body, {
-      new: true,
-      runValidators: true,
-    });
+    const user = await User.findById(req.params.id);
+
+    wantUpdate.forEach((u) => (user[u] = req.body[u]));
+
+    await user.save();
+
+    // const user = await User.findByIdAndUpdate(req.params.id, req.body, {
+    //   new: true,
+    //   runValidators: true,
+    // });
 
     if (!user) {
       return res.status(404).send("User not found!");
