@@ -5,7 +5,8 @@ const register = async (req, res) => {
 
   try {
     await user.save();
-    res.status(201).send(user);
+    const token = await user.generateAuthToken();
+    res.status(201).send({ user, token });
   } catch (err) {
     res.status(400).send(err);
   }
@@ -14,8 +15,9 @@ const register = async (req, res) => {
 const login = async (req, res) => {
   try {
     const user = await User.findByCredential(req.body.email, req.body.password);
+    const token = await user.generateAuthToken();
 
-    res.status(200).send(user);
+    res.status(200).send({ user, token });
   } catch (err) {
     res.status(400).send(err.message || err);
   }
