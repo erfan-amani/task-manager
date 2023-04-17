@@ -33,6 +33,16 @@ const getAllUser = async (req, res) => {
   }
 };
 
+const getProfile = async (req, res) => {
+  try {
+    const user = req.user;
+
+    res.send(user);
+  } catch (err) {
+    res.status(500).send("Something went wrong!");
+  }
+};
+
 const getUserById = async (req, res) => {
   const id = req.params.id;
 
@@ -98,6 +108,7 @@ module.exports = {
   register,
   login,
   getAllUser,
+  getProfile,
   getUserById,
   updateUser,
   deleteUser,
