@@ -8,7 +8,7 @@ userRouter.post("/login", userController.login);
 userRouter.get("/me", userAuth, userController.getProfile);
 userRouter.get("/:id", userController.getUserById);
 // userRouter.get("/", userController.getAllUser);
-userRouter.patch("/:id", userController.updateUser);
-userRouter.delete("/:id", userController.deleteUser);
+userRouter.patch("/:id", userAuth, userController.updateUser);
+userRouter.delete("/:id", userAuth, userController.deleteUser);
 
 module.exports = userRouter;
