@@ -104,6 +104,29 @@ const deleteUser = async (req, res) => {
   }
 };
 
+const logout = async (req, res) => {
+  try {
+    req.user.tokens = req.user.tokens.filter((t) => t.token !== req.token);
+
+    await req.user.save();
+
+    res.send();
+  } catch (err) {
+    res.status(500).send("Something went wrong!");
+  }
+};
+
+const logoutAll = async (req, res) => {
+  try {
+    req.user.tokens = [];
+    req.user.save();
+
+    res.send();
+  } catch (err) {
+    res.status(500).send("Something went wrong!");
+  }
+};
+
 module.exports = {
   register,
   login,
@@ -112,4 +135,6 @@ module.exports = {
   getUserById,
   updateUser,
   deleteUser,
+  logout,
+  logoutAll,
 };

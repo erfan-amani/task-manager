@@ -8,13 +8,15 @@ const userAuth = async (req, res, next) => {
     const token = bearer.split(" ")[1];
 
     const decoded = jwt.verify(token, "taskmanagerapp");
-    const user = await User.findOne({ _id: decoded.id });
+    const user = await User.findOne({ _id: decoded.id, "tokens.token": token });
 
     if (!user) {
       throw new Error();
     }
 
     req.user = user;
+    req.token = token;
+
     next();
   } catch (err) {
     console.log(err);
