@@ -92,7 +92,7 @@ const updateUser = async (req, res) => {
 
 const deleteUser = async (req, res) => {
   try {
-    const user = await User.findByIdAndDelete(req.params.id, req.body);
+    const user = await User.findByIdAndDelete(req.user._id, req.body);
 
     if (!user) {
       return res.status(404).send("User not found!");

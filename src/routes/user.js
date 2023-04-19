@@ -9,7 +9,7 @@ userRouter.get("/me", userAuth, userController.getProfile);
 userRouter.get("/:id", userController.getUserById);
 // userRouter.get("/", userController.getAllUser);
 userRouter.patch("/:id", userAuth, userController.updateUser);
-userRouter.delete("/:id", userAuth, userController.deleteUser);
+userRouter.delete("/me", userAuth, userController.deleteUser);
 userRouter.post("/logout", userAuth, userController.logout);
 userRouter.post("/logoutAll", userAuth, userController.logoutAll);
 
