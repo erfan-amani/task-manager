@@ -8,7 +8,7 @@ userRouter.post("/login", userController.login);
 userRouter.get("/me", userAuth, userController.getProfile);
 userRouter.get("/:id", userController.getUserById);
 // userRouter.get("/", userController.getAllUser);
-userRouter.patch("/:id", userAuth, userController.updateUser);
+userRouter.patch("/me", userAuth, userController.updateUser);
 userRouter.delete("/me", userAuth, userController.deleteUser);
 userRouter.post("/logout", userAuth, userController.logout);
 userRouter.post("/logoutAll", userAuth, userController.logoutAll);

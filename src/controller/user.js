@@ -69,22 +69,11 @@ const updateUser = async (req, res) => {
   }
 
   try {
-    const user = await User.findById(req.params.id);
+    wantUpdate.forEach((u) => (req.user[u] = req.body[u]));
 
-    wantUpdate.forEach((u) => (user[u] = req.body[u]));
+    await req.user.save();
 
-    await user.save();
-
-    // const user = await User.findByIdAndUpdate(req.params.id, req.body, {
-    //   new: true,
-    //   runValidators: true,
-    // });
-
-    if (!user) {
-      return res.status(404).send("User not found!");
-    }
-
-    res.send(user);
+    res.send(req.user);
   } catch (err) {
     res.status(500).send("Something went wrong!");
   }
