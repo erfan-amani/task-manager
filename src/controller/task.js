@@ -18,7 +18,7 @@ const addTask = async (req, res) => {
 
 const getAllTasks = async (req, res) => {
   try {
-    const tasks = await Task.find().populate("user");
+    const tasks = await Task.find({ user: req.user._id }).populate("user");
     res.send(tasks);
   } catch (err) {
     res.status(500).send("Something went wrong!");
@@ -26,10 +26,8 @@ const getAllTasks = async (req, res) => {
 };
 
 const getTaskById = async (req, res) => {
-  const id = req.params.id;
-
   try {
-    const task = await Task.findById(id);
+    const task = await Task.findOne({ _id: req.params.id, user: req.user._id });
 
     if (!task) {
       return res.status(404).send("Task not found!");
@@ -54,12 +52,7 @@ const updateTask = async (req, res) => {
   }
 
   try {
-    // const task = await Task.findByIdAndUpdate(req.params.id, req.body, {
-    //   new: true,
-    //   runValidators: true,
-    // });
-
-    const task = await Task.findById(req.params.id);
+    const task = await Task.findOne({ _id: req.params.id, user: req.user._id });
 
     if (!task) {
       return res.status(404).send("Task not found!");
@@ -77,7 +70,10 @@ const updateTask = async (req, res) => {
 
 const deleteTask = async (req, res) => {
   try {
-    const task = await Task.findByIdAndDelete(req.params.id, req.body);
+    const task = await Task.findOneAndDelete({
+      _id: req.params.id,
+      user: req.user._id,
+    });
 
     if (!task) {
       return res.status(404).send("Task not found!");
