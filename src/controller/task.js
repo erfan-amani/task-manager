@@ -3,7 +3,10 @@ const Task = require("../model/task");
 const addTask = async (req, res) => {
   const data = req.body;
 
-  const task = new Task(data);
+  const task = new Task({
+    ...data,
+    user: req.user._id,
+  });
 
   try {
     await task.save();
@@ -15,7 +18,7 @@ const addTask = async (req, res) => {
 
 const getAllTasks = async (req, res) => {
   try {
-    const tasks = await Task.find();
+    const tasks = await Task.find().populate("user");
     res.send(tasks);
   } catch (err) {
     res.status(500).send("Something went wrong!");
@@ -32,8 +35,11 @@ const getTaskById = async (req, res) => {
       return res.status(404).send("Task not found!");
     }
 
+    await task.populate("user");
+
     res.send(task);
   } catch (err) {
+    console.log(err);
     res.status(500).send("Something went wrong!");
   }
 };
