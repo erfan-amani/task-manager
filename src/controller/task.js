@@ -17,8 +17,24 @@ const addTask = async (req, res) => {
 };
 
 const getAllTasks = async (req, res) => {
+  const filters = {};
+  const sort = {};
+
+  if (req.query.completed) {
+    filters.completed = req.query.completed === "true";
+  }
+
+  if (req.query.sortBy) {
+    const [field, dir] = req.query.sortBy.split("-");
+    sort[field] = dir === "asc" ? 1 : -1;
+  }
+
   try {
-    const tasks = await Task.find({ user: req.user._id }).populate("user");
+    const tasks = await Task.find({ user: req.user._id, ...filters })
+      .limit(parseInt(req.query.limit))
+      .skip(parseInt(req.query.skip))
+      .sort(sort)
+      .populate("user");
     res.send(tasks);
   } catch (err) {
     res.status(500).send("Something went wrong!");
