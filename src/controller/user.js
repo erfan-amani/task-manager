@@ -116,6 +116,15 @@ const logoutAll = async (req, res) => {
   }
 };
 
+const uploadAvatar = async (req, res) => {
+  try {
+    res.send();
+  } catch (err) {
+    console.log(err);
+    res.status(500).send("Something went wrong!");
+  }
+};
+
 module.exports = {
   register,
   login,
@@ -126,4 +135,5 @@ module.exports = {
   deleteUser,
   logout,
   logoutAll,
+  uploadAvatar,
 };

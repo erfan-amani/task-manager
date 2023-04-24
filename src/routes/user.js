@@ -2,6 +2,7 @@ const userRouter = require("express").Router();
 
 const userController = require("../controller/user");
 const userAuth = require("../middleware/auth");
+const { avatarUploader } = require("../middleware/upload");
 
 userRouter.post("/register", userController.register);
 userRouter.post("/login", userController.login);
@@ -12,5 +13,10 @@ userRouter.patch("/me", userAuth, userController.updateUser);
 userRouter.delete("/me", userAuth, userController.deleteUser);
 userRouter.post("/logout", userAuth, userController.logout);
 userRouter.post("/logoutAll", userAuth, userController.logoutAll);
+userRouter.post(
+  "/avatar",
+  avatarUploader.single("avatar"),
+  userController.uploadAvatar
+);
 
 module.exports = userRouter;
