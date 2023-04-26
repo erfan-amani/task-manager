@@ -15,6 +15,7 @@ userRouter.post("/logout", userAuth, userController.logout);
 userRouter.post("/logoutAll", userAuth, userController.logoutAll);
 userRouter.post(
   "/avatar",
+  userAuth,
   avatarUploader.single("avatar"),
   userController.uploadAvatar
 );
