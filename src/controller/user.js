@@ -120,7 +120,7 @@ const uploadAvatar = async (req, res) => {
   try {
     req.user.avatar = req.file.buffer;
     await req.user.save();
-    res.send();
+    res.send(req.user);
   } catch (err) {
     res.status(500).send("Something went wrong!");
   }
@@ -130,7 +130,7 @@ const deleteAvatar = async (req, res) => {
   try {
     req.user.avatar = undefined;
     await req.user.save();
-    res.send();
+    res.send(req.user);
   } catch (err) {
     res.status(500).send("Something went wrong!");
   }
