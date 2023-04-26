@@ -21,5 +21,6 @@ userRouter.post(
   (error, req, res, next) => res.status(400).send(error.message)
 );
 userRouter.delete("/me/avatar", userAuth, userController.deleteAvatar);
+userRouter.get("/:id/avatar", userController.getUserAvatar);
 
 module.exports = userRouter;

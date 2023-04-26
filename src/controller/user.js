@@ -136,6 +136,19 @@ const deleteAvatar = async (req, res) => {
   }
 };
 
+const getUserAvatar = async (req, res) => {
+  const user = await User.findById(req.params.id);
+
+  console.log(user);
+
+  if (!user || !user.avatar) {
+    return res.status(404).send("Not found!");
+  }
+
+  res.set("Content-Type", "image/jpg");
+  res.send(user.avatar);
+};
+
 module.exports = {
   register,
   login,
@@ -148,4 +161,5 @@ module.exports = {
   logoutAll,
   uploadAvatar,
   deleteAvatar,
+  getUserAvatar,
 };
