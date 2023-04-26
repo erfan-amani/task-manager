@@ -1,3 +1,5 @@
+const sharp = require("sharp");
+
 const User = require("../model/user");
 
 const register = async (req, res) => {
@@ -118,7 +120,11 @@ const logoutAll = async (req, res) => {
 
 const uploadAvatar = async (req, res) => {
   try {
-    req.user.avatar = req.file.buffer;
+    const avatarBuffer = await sharp(req.file.buffer)
+      .resize({ width: 250, height: 250 })
+      .png()
+      .toBuffer();
+    req.user.avatar = avatarBuffer;
     await req.user.save();
     res.send(req.user);
   } catch (err) {
