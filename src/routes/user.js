@@ -17,7 +17,8 @@ userRouter.post(
   "/avatar",
   userAuth,
   avatarUploader.single("avatar"),
-  userController.uploadAvatar
+  userController.uploadAvatar,
+  (error, req, res, next) => res.status(400).send(error.message)
 );
 
 module.exports = userRouter;
