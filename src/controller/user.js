@@ -126,6 +126,16 @@ const uploadAvatar = async (req, res) => {
   }
 };
 
+const deleteAvatar = async (req, res) => {
+  try {
+    req.user.avatar = undefined;
+    await req.user.save();
+    res.send();
+  } catch (err) {
+    res.status(500).send("Something went wrong!");
+  }
+};
+
 module.exports = {
   register,
   login,
@@ -137,4 +147,5 @@ module.exports = {
   logout,
   logoutAll,
   uploadAvatar,
+  deleteAvatar,
 };

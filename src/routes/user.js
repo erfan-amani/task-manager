@@ -20,5 +20,6 @@ userRouter.post(
   userController.uploadAvatar,
   (error, req, res, next) => res.status(400).send(error.message)
 );
+userRouter.delete("/avatar", userAuth, userController.deleteAvatar);
 
 module.exports = userRouter;
