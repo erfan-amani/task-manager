@@ -26,6 +26,7 @@ const userSchema = new mongoose.Schema({
     required: true,
     minLength: 7,
   },
+  avatar: { type: Buffer },
   tokens: [
     {
       token: {

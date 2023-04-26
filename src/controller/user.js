@@ -118,9 +118,10 @@ const logoutAll = async (req, res) => {
 
 const uploadAvatar = async (req, res) => {
   try {
+    req.user.avatar = req.file.buffer;
+    await req.user.save();
     res.send();
   } catch (err) {
-    console.log(err);
     res.status(500).send("Something went wrong!");
   }
 };

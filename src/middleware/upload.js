@@ -12,7 +12,10 @@ const fileFilter = (req, file, cb) => {
 
 // Default file size = 2MB
 // Default filed name size = 300
-const upload = (dest, { fileSize = 2 * 1024 * 1024, fieldNameSize = 300 }) =>
+const upload = (
+  dest = undefined,
+  { fileSize = 2 * 1024 * 1024, fieldNameSize = 300 }
+) =>
   multer({
     dest,
     fileFilter,
@@ -22,7 +25,7 @@ const upload = (dest, { fileSize = 2 * 1024 * 1024, fieldNameSize = 300 }) =>
     },
   });
 
-exports.avatarUploader = upload("avatars/", {
+exports.avatarUploader = upload(undefined, {
   fileSize: 2 * 1024 * 1024,
   fieldNameSize: 300,
 });
