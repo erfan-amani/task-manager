@@ -14,12 +14,12 @@ userRouter.delete("/me", userAuth, userController.deleteUser);
 userRouter.post("/logout", userAuth, userController.logout);
 userRouter.post("/logoutAll", userAuth, userController.logoutAll);
 userRouter.post(
-  "/avatar",
+  "/me/avatar",
   userAuth,
   avatarUploader.single("avatar"),
   userController.uploadAvatar,
   (error, req, res, next) => res.status(400).send(error.message)
 );
-userRouter.delete("/avatar", userAuth, userController.deleteAvatar);
+userRouter.delete("/me/avatar", userAuth, userController.deleteAvatar);
 
 module.exports = userRouter;
