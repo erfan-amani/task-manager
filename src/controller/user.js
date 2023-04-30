@@ -1,4 +1,5 @@
 const sharp = require("sharp");
+const { sendWelcomeEmail, sendCancelEmail } = require("../email/account");
 
 const User = require("../model/user");
 
@@ -7,6 +8,9 @@ const register = async (req, res) => {
 
   try {
     await user.save();
+
+    sendWelcomeEmail(user.email, user.name);
+
     const token = await user.generateAuthToken();
     res.status(201).send({ user, token });
   } catch (err) {
@@ -84,6 +88,8 @@ const updateUser = async (req, res) => {
 const deleteUser = async (req, res) => {
   try {
     const user = await User.findByIdAndDelete(req.user._id, req.body);
+
+    sendCancelEmail(req.user.email, req.user.name);
 
     if (!user) {
       return res.status(404).send("User not found!");
