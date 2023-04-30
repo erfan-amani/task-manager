@@ -1,5 +1,10 @@
 const mongoose = require("mongoose");
 
-const uri = "mongodb://localhost:27017/task-manager";
+const uri = process.env.MONGODB_URI;
 
-mongoose.connect(uri, {});
+console.log(process.env.MONGODB_URI);
+
+mongoose
+  .connect(uri, {})
+  .then(() => console.log("Connected to mongodb successfully."))
+  .catch((err) => console.log(err));
