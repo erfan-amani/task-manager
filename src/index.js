@@ -1,6 +1,10 @@
-require("dotenv").config();
 const express = require("express");
 const bodyParser = require("body-parser");
+
+// config env file
+require("dotenv").config({
+  path: `${__dirname}/config/test.env`,
+});
 
 require("./db/mongoose");
 const userRouter = require("./routes/user");
