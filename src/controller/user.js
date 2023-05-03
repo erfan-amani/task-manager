@@ -151,8 +151,6 @@ const deleteAvatar = async (req, res) => {
 const getUserAvatar = async (req, res) => {
   const user = await User.findById(req.params.id);
 
-  console.log(user);
-
   if (!user || !user.avatar) {
     return res.status(404).send("Not found!");
   }

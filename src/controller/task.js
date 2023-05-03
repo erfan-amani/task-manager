@@ -53,7 +53,6 @@ const getTaskById = async (req, res) => {
 
     res.send(task);
   } catch (err) {
-    console.log(err);
     res.status(500).send("Something went wrong!");
   }
 };
