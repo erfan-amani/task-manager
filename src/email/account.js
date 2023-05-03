@@ -13,13 +13,13 @@ const transporter = nodemailer.createTransport({
     pass: MAIL_PASSWORD,
   },
 });
-transporter.verify((error, success) => {
-  if (error) {
-    console.log(error);
-  } else {
-    console.log("Email server is ready to take our messages");
-  }
-});
+// transporter.verify((error, success) => {
+//   if (error) {
+//     console.log(error);
+//   } else {
+//     console.log("Email server is ready to take our messages");
+//   }
+// });
 
 const sendWelcomeEmail = async (email, name) => {
   transporter.sendMail({
