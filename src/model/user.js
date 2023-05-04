@@ -58,7 +58,10 @@ userSchema.methods.toJSON = function () {
 
 userSchema.methods.generateAuthToken = async function () {
   const user = this;
-  const token = await jwt.sign({ id: user._id.toString() }, "taskmanagerapp");
+  const token = await jwt.sign(
+    { id: user._id.toString() },
+    process.env.JWT_SECRET
+  );
 
   user.tokens = user.tokens.concat({ token });
   await user.save();
