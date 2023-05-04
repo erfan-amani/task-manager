@@ -1,26 +1,10 @@
 const request = require("supertest");
-const jwt = require("jsonwebtoken");
-const mongoose = require("mongoose");
 
 const app = require("../app");
 const User = require("../model/user");
-const { deleteUser } = require("../controller/user");
+const { userOneId, userOne, setupDatabase } = require("./fixtures/db");
 
-// userOne is used for testing auth routes
-const userOneId = new mongoose.Types.ObjectId();
-const userOne = {
-  _id: userOneId,
-  name: "Test",
-  email: "test-user@gmail.com",
-  password: "test-user-1234-@",
-  tokens: [{ token: jwt.sign({ id: userOneId }, process.env.JWT_SECRET) }],
-};
-
-beforeEach(async () => {
-  await User.deleteMany();
-
-  await new User(userOne).save();
-});
+beforeEach(setupDatabase);
 
 test("Register new user", async () => {
   const response = await request(app)
