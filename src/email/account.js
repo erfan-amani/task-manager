@@ -22,9 +22,6 @@ const transporter = nodemailer.createTransport({
 // });
 
 const sendWelcomeEmail = async (email, name) => {
-  // limit of email server
-  if (process.env.NODE_ENV === "test") return;
-
   transporter.sendMail({
     from: "Test App <info@mail.erfanamanabadi.ir>",
     to: email,
@@ -36,9 +33,6 @@ const sendWelcomeEmail = async (email, name) => {
 };
 
 const sendCancelEmail = async (email, name) => {
-  // limit of email server
-  if (process.env.NODE_ENV === "test") return;
-
   transporter.sendMail({
     from: "Test App <info@mail.erfanamanabadi.ir>",
     to: email,
