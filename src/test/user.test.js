@@ -25,6 +25,35 @@ test("Register new user", async () => {
   });
 });
 
+test("Not register with invalid name", async () => {
+  await request(app)
+    .post("/user/register")
+    .send({
+      // name: 'erfan', No name
+      email: "erfantest2@gmail.com",
+      password: "erfantest1234@",
+    })
+    .expect(400);
+});
+
+test("Not register with invalid email", async () => {
+  await request(app)
+    .post("/user/register")
+    .send({ name: "erfan2", email: "erfantest", password: "erfantest1234@" })
+    .expect(400);
+});
+
+test("Not register with invalid password", async () => {
+  await request(app)
+    .post("/user/register")
+    .send({
+      name: "erfan2",
+      email: "erfantest2@gmail.com",
+      password: "erfan",
+    })
+    .expect(400);
+});
+
 test("Login user", async () => {
   const response = await request(app)
     .post("/user/login")
@@ -69,3 +98,40 @@ test("Not delete user unauthorized", async () => {
   const deletedUser = await User.findById(userOneId);
   expect(deletedUser).not.toBeNull();
 });
+
+test("Update user profile", async () => {
+  const response = await request(app)
+    .patch("/user/me")
+    .set("Authorization", `Bearer ${userOne.tokens[0].token}`)
+    .send({ name: "erfan edited" })
+    .expect(200);
+
+  expect(response.body.name).toBe("erfan edited");
+});
+
+test("Not update user profile unauthorized", async () => {
+  await request(app)
+    .patch("/user/me")
+    .send({ name: "erfan edited" })
+    .expect(401);
+});
+
+test("Not update user profile with invalid email", async () => {
+  const response = await request(app)
+    .patch("/user/me")
+    .set("Authorization", `Bearer ${userOne.tokens[0].token}`)
+    .send({ email: "invalidemail" })
+    .expect(400);
+
+  expect(response.body.email).not.toBe("invalidemail");
+});
+
+test("Not update user profile with invalid password", async () => {
+  const response = await request(app)
+    .patch("/user/me")
+    .set("Authorization", `Bearer ${userOne.tokens[0].token}`)
+    .send({ password: "test" })
+    .expect(400);
+});
+
+// AVATAR TEST

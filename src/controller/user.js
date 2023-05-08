@@ -81,7 +81,7 @@ const updateUser = async (req, res) => {
 
     res.send(req.user);
   } catch (err) {
-    res.status(500).send("Something went wrong!");
+    res.status(400).send("Something went wrong!");
   }
 };
 
