@@ -1,4 +1,5 @@
 const request = require("supertest");
+const path = require("path");
 
 const app = require("../app");
 const User = require("../model/user");
@@ -134,4 +135,24 @@ test("Not update user profile with invalid password", async () => {
     .expect(400);
 });
 
-// AVATAR TEST
+test("Not update invalid field for user", async () => {
+  await request(app)
+    .patch("/user/me")
+    .set("Authorization", `Bearer ${userOne.tokens[0].token}`)
+    .send({ location: "My home address" })
+    .expect(400);
+
+  const user = User.findById(userOneId);
+  expect(user.location).toBeUndefined();
+});
+
+test("Upload user avatar", async () => {
+  const response = await request(app)
+    .post("/user/me/avatar")
+    .set("Authorization", `Bearer ${userOne.tokens[0].token}`)
+    .attach("avatar", path.resolve(__dirname, "fixtures/profile-pic.jpg"))
+    .expect(200);
+
+  const user = await User.findById(response.body._id);
+  expect(user.avatar).toEqual(expect.any(Buffer));
+});
